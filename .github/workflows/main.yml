@@ -1,0 +1,28 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry: 080385600816.dkr.ecr.us-east-1.amazonaws.com
+          # Make sure you have the necessary AWS credentials (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN) set in GitHub Secrets.
+
+      - name: Build Docker image
+        run: docker build -t 080385600816.dkr.ecr.us-east-1.amazonaws.com/igabay:latest .
+
+      - name: Push Docker image to Amazon ECR
+        run: docker push 080385600816.dkr.ecr.us-east-1.amazonaws.com/igabay:latest
