@@ -27,7 +27,6 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
         with:
           registry: 080385600816.dkr.ecr.us-east-1.amazonaws.com
-          registry-type: ECR
 
       - name: Build Docker image
         run: docker build -t 080385600816.dkr.ecr.us-east-1.amazonaws.com/igabay:latest .
