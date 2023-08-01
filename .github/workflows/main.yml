@@ -14,12 +14,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1  # Replace with your AWS region
+
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
         with:
           registry: 080385600816.dkr.ecr.us-east-1.amazonaws.com
-          # Make sure you have the necessary AWS credentials (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN) set in GitHub Secrets.
+          registry-type: ECR
 
       - name: Build Docker image
         run: docker build -t 080385600816.dkr.ecr.us-east-1.amazonaws.com/igabay:latest .
